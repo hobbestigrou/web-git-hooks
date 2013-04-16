@@ -1,5 +1,7 @@
 #!/bin/sh
 
+path_templates=templates/*.html
+
 files=$(git diff --cached --name-only --diff-filter=ACM | grep ".js$")
 
 if [ "$files" = "" ];
@@ -18,7 +20,7 @@ do
 
     echo $(git rev-parse HEAD)
 
-    for temp_file in templates/*.html
+    for temp_file in $path_templates
     do
         sed -i "s;$file\(?version=[0-9]*\)\?;$new_name;g" $temp_file
         git add $temp_file
