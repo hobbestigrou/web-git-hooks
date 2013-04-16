@@ -10,15 +10,12 @@ then
 fi
 
 rand=$(git rev-parse HEAD)
-#rand=$(tr -cd 0-9 </dev/urandom | head -c 3)
 
 for file in ${files};
 do
     echo "Add number version for static file"
 
     new_name=${file}'?version='$rand
-
-    echo $(git rev-parse HEAD)
 
     for temp_file in $path_templates
     do
