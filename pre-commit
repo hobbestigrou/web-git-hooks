@@ -1,6 +1,7 @@
 #!/bin/sh
 
 path_templates=templates/*.html
+active_jshint_validation=1
 
 files=$(git diff --cached --name-only --diff-filter=ACM | grep ".js$")
 
@@ -13,8 +14,24 @@ rand=$(git rev-parse HEAD)
 
 for file in ${files};
 do
-    echo "Add number version for static file"
+    if [ $active_jshint_validation -eq 1 ];
+    then
+        echo "Jshint validation"
+        errors=0
 
+        jshint ${file}
+        errors=$((${errors} + $?))
+
+        if [ $errors -ne 0 ];
+        then
+            echo "JSHint detected syntax problems"
+            echo "Commit aborted"
+
+            exit $errors
+        fi
+    fi
+
+    echo "Add number version for static file"
     new_name=${file}'?version='$rand
 
     for temp_file in $path_templates
