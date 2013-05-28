@@ -36,7 +36,7 @@ do
 
     for temp_file in $path_templates
     do
-        sed -i "s;$file\(?version=[0-9]*\)\?;$new_name;g" $temp_file
+        sed -i "s;$file\(?version=[a-zA-Z0-9]*\)\?;$new_name;g" $temp_file
         git add $temp_file
     done
 done
